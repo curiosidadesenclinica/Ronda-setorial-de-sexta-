@@ -1,0 +1,1 @@
+# Ronda-setorial-de-sexta-
