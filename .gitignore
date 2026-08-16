@@ -1,0 +1,7 @@
+node_modules/
+platforms/
+plugins/
+saida/
+*.apk
+*.aab
+www/js/jspdf.umd.min.js
