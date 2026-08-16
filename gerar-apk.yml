@@ -1,0 +1,52 @@
+name: Gerar APK - Ronda Setorial de Sexta
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  gerar-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.9.0'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Android SDK
+        run: |
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
+          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+      - name: Cordova
+        run: npm install -g cordova@13.0.0
+      - name: Dependencias
+        run: npm install
+      - name: jsPDF local
+        run: |
+          mkdir -p /tmp/jspdf www/js
+          npm install --prefix /tmp/jspdf jspdf@2.5.1
+          cp /tmp/jspdf/node_modules/jspdf/dist/jspdf.umd.min.js www/js/jspdf.umd.min.js
+          sed -i 's#https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js#js/jspdf.umd.min.js#g' www/index.html
+      - name: Android e plugins
+        run: |
+          rm -rf platforms plugins
+          cordova platform add android@15.0.0
+          cordova prepare android
+      - name: Gerar APK
+        run: cordova build android --debug
+      - name: Preparar APK
+        run: |
+          mkdir -p saida
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk saida/Ronda_Setorial_de_Sexta.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Ronda-Setorial-de-Sexta-APK
+          path: saida/Ronda_Setorial_de_Sexta.apk
+          retention-days: 14
+          compression-level: 0
