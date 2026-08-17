@@ -13,7 +13,7 @@
  <icon src="resources/icon.png" />
  <platform name="android">
    <icon src="resources/icon.png" />
-   <preference name="AndroidWindowSplashScreenBackground" value="#FFFFFF" />
+   <preference name="AndroidWindowSplashScreenBackground" value="#0B63CE" />
    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/icon.png" />
  </platform>
 </widget>
