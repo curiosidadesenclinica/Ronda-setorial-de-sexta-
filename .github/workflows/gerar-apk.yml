@@ -1,4 +1,4 @@
-name: Gerar APK - Ronda Setorial de Sexta
+name: Gerar APK - Ronda Setorial
 
 on:
   workflow_dispatch:
@@ -69,23 +69,23 @@ jobs:
         shell: bash
         run: |
           mkdir -p saida
-          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk saida/Ronda_Setorial_de_Sexta.apk
-          ls -lh saida/Ronda_Setorial_de_Sexta.apk
+          cp platforms/android/app/build/outputs/apk/debug/app-debug.apk saida/Ronda_Setorial.apk
+          ls -lh saida/Ronda_Setorial.apk
 
       - name: Salvar APK na pasta saida da main
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f saida/Ronda_Setorial_de_Sexta.apk
-          git diff --cached --quiet || git commit -m "Atualizar APK da Ronda Setorial de Sexta"
+          git add -f saida/Ronda_Setorial.apk
+          git diff --cached --quiet || git commit -m "Atualizar APK da Ronda Setorial"
           git push
 
       - name: Publicar APK como artefato
         uses: actions/upload-artifact@v4
         with:
-          name: Ronda-Setorial-de-Sexta-APK
-          path: saida/Ronda_Setorial_de_Sexta.apk
+          name: Ronda-Setorial-APK
+          path: saida/Ronda_Setorial.apk
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
@@ -97,7 +97,7 @@ jobs:
           path: |
             plugins/
             platforms/android/
-            saida/Ronda_Setorial_de_Sexta.apk
+            saida/Ronda_Setorial.apk
           if-no-files-found: error
           retention-days: 14
           compression-level: 0
